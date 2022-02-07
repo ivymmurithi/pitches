@@ -1,0 +1,41 @@
+body {
+  background-color: #e5e5e5 !important;
+  font-family: "Poppins", sans-serif;
+}
+
+.home-image,
+img {
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  margin-top: 2%;
+  margin-left: 15%;
+}
+
+.welcome {
+  color: #14213d;
+  font-family: "Playfair Display", serif !important;
+  margin-top: 3%;
+  font-size: 2rem !important;
+}
+
+.pitches {
+  color: #fca311 !important;
+  font-family: "Playfair Display", serif !important;
+  font-size: 2rem !important;
+}
+
+.viewButton {
+  background-color: #14213d !important;
+  color: white !important;
+  width: 20%;
+  font-size: 0.7rem;
+}
+
+.pitchText {
+  color: #14213d !important;
+}
+
+.pitchCategory {
+  color: #fca311 !important;
+}
