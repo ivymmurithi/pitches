@@ -39,3 +39,7 @@ img {
 .pitchCategory {
   color: #fca311 !important;
 }
+
+.card {
+  margin: 3%;
+}

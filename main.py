@@ -99,9 +99,9 @@ def view_pitches():
         pitches = Pitch.query.filter_by(category=filter).all()
     else:
         pitches = Pitch.query.filter_by().all()
-    
+    comments = Comment.query.filter_by().all()
 
-    return render_template('view_pitches.html', pitches=pitches)
+    return render_template('view_pitches.html', pitches=pitches, comments=comments)
 
 @app.route('/logout')
 def logout():

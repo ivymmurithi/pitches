@@ -13,6 +13,20 @@
             <p>Pitch: {{pitch.pitch}}</p>
             <footer class="blockquote-footer">Cartegory: {{pitch.category}}</footer>
         </blockquote>
+        {% for comment in comments %}
+        {% if comment.pitch_id == pitch.id %}
+            <div class="card">
+                <div class="card-header">
+                    {{comment.user.username}}
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>{{comment.comment}}</p>
+                    </blockquote>
+                </div>
+            </div>
+        {% endif %}
+        {%endfor%}
     </div>
 </div>
 {% endfor %}
