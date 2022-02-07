@@ -43,3 +43,13 @@ img {
 .card {
   margin: 3%;
 }
+
+#comment-form {
+  margin: 5%;
+}
+
+.btn-warning {
+  float: right !important;
+  background-color: #fca311 !important;
+  color: white;
+}

@@ -13,6 +13,15 @@
             <p>Pitch: {{pitch.pitch}}</p>
             <footer class="blockquote-footer">Cartegory: {{pitch.category}}</footer>
         </blockquote>
+
+        <form id="comment-form" action="/comments?pitch_id={{pitch.id}}" method="post">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="New Comment" aria-label="Recipient's username"
+                    aria-describedby="button-addon2" name="comment" id="comment">
+                <button class="btn btn-outline-secondary" type="submit" name="submit" id="button-addon2">Comment</button>
+            </div>
+        </form>
+
         {% for comment in comments %}
         {% if comment.pitch_id == pitch.id %}
             <div class="card">

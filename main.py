@@ -1,7 +1,8 @@
+from crypt import methods
 from curses import flash
 from flask import Flask,render_template,redirect,url_for,flash,session,request
 from config import *
-from forms import LoginForm,SignupForm,PitchesForm
+from forms import LoginForm,SignupForm,PitchesForm,CommentsForm
 from models.user import User
 from models.pitch import Pitch
 from models.comment import Comment
@@ -102,6 +103,18 @@ def view_pitches():
     comments = Comment.query.filter_by().all()
 
     return render_template('view_pitches.html', pitches=pitches, comments=comments)
+
+@app.route('/comments', methods=['POST'])
+def add_comment():
+    pitch_id = request.args.get("pitch_id", None)
+    comment = request.form.get("comment", None)
+    if pitch_id and comment:
+        comment = Comment(comment=comment, pitch_id=pitch_id, user_id=session["user_id"])
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('view_pitches'))
+    
+    return redirect(url_for('view_pitches'))
 
 @app.route('/logout')
 def logout():
