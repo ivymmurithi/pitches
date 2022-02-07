@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf%}
+
+
+
+{% block content %}
+<div class="user">
+Logged in as: {{ username }}
+</div>
+
+
+<form action="/pitches" method="POST">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"> </div>
+                <div class="col-md-8">
+        
+                    {{wtf.quick_form(pitches_form)}}
+
+               <a href="view/pitches"><button type="button" class="btn viewButton btn-dark">View Pitches</button></a>
+        
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+
+</form>
+
+
+
+{% endblock %}

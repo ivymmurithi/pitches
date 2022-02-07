@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% for pitch in pitches %}
+<div class="col-sm-6">
+    <ul class='list-unstyled '>
+        <li class='style'>
+            <h3 class='text-primary pitchText'>Pitch: {{pitch.pitch}}</h3>
+            <h4 class="pitchCategory">Cartegory: {{pitch.category}}</h4>
+        </li>
+        <hr> <br>
+    </ul>
+</div>
+{% endfor %}
+{% endblock %}
