@@ -3,14 +3,17 @@
 
 {% block content %}
 {% for pitch in pitches %}
-<div class="col-sm-6">
-    <ul class='list-unstyled '>
-        <li class='style'>
-            <h3 class='text-primary pitchText'>Pitch: {{pitch.pitch}}</h3>
-            <h4 class="pitchCategory">Cartegory: {{pitch.category}}</h4>
-        </li>
-        <hr> <br>
-    </ul>
+
+<div class="card">
+    <div class="card-header">
+        {{pitch.user_id}}
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p>Pitch: {{pitch.pitch}}</p>
+            <footer class="blockquote-footer">Cartegory: {{pitch.category}}</footer>
+        </blockquote>
+    </div>
 </div>
 {% endfor %}
 {% endblock %}
