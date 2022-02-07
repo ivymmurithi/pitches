@@ -17,6 +17,7 @@ You must be logged in for you to see and create views.
 6. Google Fonts
 7. Undraw
 8. Python3
+9. jQuery
 
 ## Author
 Ivy Murithi
