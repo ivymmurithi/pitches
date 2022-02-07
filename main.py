@@ -1,8 +1,7 @@
-from crypt import methods
 from curses import flash
-from flask import Flask,render_template,redirect,url_for,flash,session,request
+from flask import Flask,render_template,redirect,url_for,flash,session,request,Response
 from config import *
-from forms import LoginForm,SignupForm,PitchesForm,CommentsForm
+from forms import LoginForm,SignupForm,PitchesForm
 from models.user import User
 from models.pitch import Pitch
 from models.comment import Comment
@@ -12,6 +11,7 @@ from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
 from flask_login import LoginManager,login_user
 from werkzeug.security import check_password_hash,generate_password_hash
+from sqlalchemy import update
 
 bootstrap = Bootstrap(app)
 manager = Manager(app)
@@ -119,6 +119,22 @@ def add_comment():
 @app.route('/logout')
 def logout():
     return render_template('index.html')
+
+@app.route('/votes', methods=['POST'])
+def set_votes():
+    upvotes = int(request.args.get("upvotes", 0))
+    downvotes = int(request.args.get("downvotes", 0))
+    pitch = int(request.args.get("pitch", None))
+    
+    if not pitch:
+        return Response("can't update votes for an unknown pitch", status=403)
+    
+    stmt = (
+        update(Pitch).where(Pitch.id == pitch).values(upvotes=upvotes, downvotes=downvotes)
+    )
+    db.session.execute(stmt)
+    db.session.commit()
+    return Response("Updated pitch votes", status=200)
 
 
 @manager.shell

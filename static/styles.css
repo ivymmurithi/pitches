@@ -53,3 +53,8 @@ img {
   background-color: #fca311 !important;
   color: white;
 }
+
+.votes {
+  margin-top: -8%;
+  float: right !important;
+}
