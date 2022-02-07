@@ -1,16 +1,15 @@
-from crypt import methods
 from curses import flash
-from unicodedata import category
 from flask import Flask,render_template,redirect,url_for,flash,session,request
 from config import *
 from forms import LoginForm,SignupForm,PitchesForm
 from models.user import User
 from models.pitch import Pitch
+from models.comment import Comment
 from db import app, db
 from flask_bootstrap import Bootstrap
 from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
-from flask_login import LoginManager,login_user,login_required,current_user
+from flask_login import LoginManager,login_user
 from werkzeug.security import check_password_hash,generate_password_hash
 
 bootstrap = Bootstrap(app)
@@ -100,6 +99,7 @@ def view_pitches():
         pitches = Pitch.query.filter_by(category=filter).all()
     else:
         pitches = Pitch.query.filter_by().all()
+    
 
     return render_template('view_pitches.html', pitches=pitches)
 

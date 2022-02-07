@@ -1,6 +1,7 @@
-from email.policy import default
 from db import db
 from datetime import date
+from sqlalchemy.orm import relationship
+from .user import User
 
 class Pitch(db.Model):
     __tablename__ = 'pitches'
@@ -12,6 +13,7 @@ class Pitch(db.Model):
     date_created = db.Column(db.DateTime(), default=date.today())
     pitch = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    user = relationship("User", backref="pitches")
 
     def __repr__(self):
         return f'Pitch {self.category}'
