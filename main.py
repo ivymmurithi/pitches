@@ -28,7 +28,7 @@ def load_user(user_id):
 
 @app.route('/',methods=['GET','POST'])
 def home():
-    return render_template("index.html")
+    return render_template("index.html",user_id=session.get("user_id", None))
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -47,7 +47,7 @@ def login():
             flash('Invalid Username or Password')
         flash('Invalid Username or Password')
 
-    return  render_template("login.html",form = form)
+    return  render_template("login.html",form = form,user_id=session.get("user_id", None))
 
 @app.route('/signup',methods=['GET','POST'])
 def getsignup():
@@ -70,7 +70,7 @@ def getsignup():
         flash('User added successfully')
         return redirect(url_for('login'))
 
-    return render_template('signup.html',signup_form=signup_form)
+    return render_template('signup.html',signup_form=signup_form,user_id=session.get("user_id", None))
 
 
 @app.route('/pitches',methods=['GET','POST'])
@@ -91,7 +91,7 @@ def pitches():
     if not session.get("username", None):
         return redirect(url_for('login'))
 
-    return render_template('pitches.html',pitches_form = pitches_form,username = session["username"])
+    return render_template('pitches.html',pitches_form = pitches_form,username = session["username"],user_id=session.get("user_id", None))
 
 @app.route('/view/pitches',methods=['GET'])
 def view_pitches():
@@ -102,7 +102,7 @@ def view_pitches():
         pitches = Pitch.query.filter_by().all()
     comments = Comment.query.filter_by().all()
 
-    return render_template('view_pitches.html', pitches=pitches, comments=comments)
+    return render_template('view_pitches.html', pitches=pitches, comments=comments,user_id=session.get("user_id", None))
 
 @app.route('/comments', methods=['POST'])
 def add_comment():
@@ -118,14 +118,15 @@ def add_comment():
 
 @app.route('/logout')
 def logout():
-    return render_template('index.html')
+    session.clear()
+    return render_template('index.html',user_id=session.get("user_id", None))
 
 @app.route('/votes', methods=['POST'])
 def set_votes():
     upvotes = int(request.args.get("upvotes", 0))
     downvotes = int(request.args.get("downvotes", 0))
     pitch = int(request.args.get("pitch", None))
-    
+
     if not pitch:
         return Response("can't update votes for an unknown pitch", status=403)
     
