@@ -21,9 +21,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+@app.before_first_request
+def create_user():
+    db.create_all()
 
 @app.route('/',methods=['GET','POST'])
 def home():
