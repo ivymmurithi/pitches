@@ -1,10 +1,9 @@
 import os
-import secrets
 
 class Config:
     FLASK_APP="main.py"
     SQLALCHEMY_TRACK_MODIFICATION = False
-    SECRET_KEY = secrets.token_hex(16)
+    SECRET_KEY=os.environ["SECRET_KEY"]
     SQLALCHEMY_DATABASE_URI=os.environ["SQLALCHEMY_DATABASE_URI"]
 
 class ProdConfig(Config):
@@ -16,6 +15,7 @@ class TestConfig(Config):
 
 class DevConfig(Config):
     FLASK_ENV = "development"
+    SECRET_KEY=os.environ["SECRET_KEY"]
     SQLALCHEMY_DATABASE_URI=os.environ["SQLALCHEMY_DATABASE_URI"]
 
 
