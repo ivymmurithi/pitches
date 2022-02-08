@@ -6,7 +6,7 @@ class Config:
     SECRET_KEY=os.environ["SECRET_KEY"]
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI=os.environ["DATABASE_URL"]
+    SQLALCHEMY_DATABASE_URI=os.environ["SQLALCHEMY_DATABASE_URI"]
 
 class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI=os.environ["SQLALCHEMY_DATABASE_URI"]
