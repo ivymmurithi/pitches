@@ -17,6 +17,10 @@ class SignupForm(FlaskForm):
     email = EmailField(label='Email',validators=[InputRequired(),Email()])
     password = PasswordField(label='Password',validators = [InputRequired(),Length(min=5, max=50)])
     submit = SubmitField(label='Sign Up')
+    def validate_email(form,email):
+        if User.query.filter_by(email=email.data).first():
+            raise ValidationError('There is an account with that email')
+
 
 class PitchesForm(FlaskForm):
     pitch = StringField(label='pitch',validators=[InputRequired(), Length(min=10, max=100)])

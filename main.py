@@ -72,18 +72,12 @@ def getsignup():
         
         hashed_password = generate_password_hash(password, method="sha256")
 
-        user = User.query.filter(email == email).first()
+        new_user = User(first_name=first_name,last_name=last_name,username=username,email=email,password=hashed_password)
 
-        if user:
-            flash ('Email already exists!')
-            return redirect(url_for('getsignup'))
-        else:
-            new_user = User(first_name=first_name,last_name=last_name,username=username,email=email,password=hashed_password)
-
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Account added successfully!')
-            return redirect(url_for('login'))
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Account added successfully!')
+        return redirect(url_for('login'))
     
 
     return render_template('signup.html',signup_form=signup_form,user_id=session.get("user_id", None))
