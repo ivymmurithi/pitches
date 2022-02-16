@@ -2,15 +2,17 @@
 {% import 'bootstrap/wtf.html' as wtf%}
 
 
-
 {% block content %}
+
 <form action="/signup" method="POST">
 
     <div class="container">
         <div class="row">
             <div class="col-md-2"> </div>
             <div class="col-md-8">
-    
+                {% for message in get_flashed_messages() %}
+                {{ message }}
+                {% endfor %}
              {{wtf.quick_form(signup_form)}}
 
             </div>

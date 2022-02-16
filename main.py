@@ -7,7 +7,7 @@ from models.pitch import Pitch
 from models.comment import Comment
 from db import app, db
 from flask_bootstrap import Bootstrap
-from flask_script import Manager
+from flask_script import Manager, Server
 from flask_migrate import Migrate,MigrateCommand
 from flask_login import LoginManager,login_user
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -17,6 +17,7 @@ bootstrap = Bootstrap(app)
 manager = Manager(app)
 migrate = Migrate(app,db)
 manager.add_command('db',MigrateCommand)
+manager.add_command('server',Server)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -48,9 +49,10 @@ def login():
                 login_user(user, remember=True)
                 session["user_id"] = user.id
                 session["username"] = user.username
+                flash('Login Successful!')
                 return redirect(url_for('pitches'))
-            flash('Invalid Username or Password')
-        flash('Invalid Username or Password')
+            else:
+                flash('Invalid Username or Password!', 'error')
 
     return  render_template("login.html",form = form,user_id=session.get("user_id", None))
 
@@ -59,21 +61,30 @@ def getsignup():
 
     signup_form = SignupForm()
 
+
     if signup_form.validate_on_submit():
         first_name = signup_form.first_name.data
         last_name = signup_form.last_name.data
         username = signup_form.username.data
         email = signup_form.email.data
+        
         password = signup_form.password.data
-
+        
         hashed_password = generate_password_hash(password, method="sha256")
 
-        new_user = User(first_name=first_name,last_name=last_name,username=username,email=email,password=hashed_password)
+        user = User.query.filter(email == email).first()
 
-        db.session.add(new_user)
-        db.session.commit()
-        flash('User added successfully')
-        return redirect(url_for('login'))
+        if user:
+            flash ('Email already exists!')
+            return redirect(url_for('getsignup'))
+        else:
+            new_user = User(first_name=first_name,last_name=last_name,username=username,email=email,password=hashed_password)
+
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account added successfully!')
+            return redirect(url_for('login'))
+    
 
     return render_template('signup.html',signup_form=signup_form,user_id=session.get("user_id", None))
 
@@ -124,6 +135,7 @@ def add_comment():
 @app.route('/logout')
 def logout():
     session.clear()
+    flash('Logged out successfully!')
     return render_template('index.html',user_id=session.get("user_id", None))
 
 @app.route('/votes', methods=['POST'])
